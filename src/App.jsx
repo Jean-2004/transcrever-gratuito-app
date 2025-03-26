@@ -7,6 +7,7 @@ import Transcribing from './components/Transcribing'
 import { MessageTypes } from './utils/presets'
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false)
   const [file, setFile] = useState(null)
   const [audioStream, setAudioStream] = useState(null)
   const [output, setOutput] = useState(null)
@@ -15,6 +16,10 @@ function App() {
   const [finished, setFinished] = useState(false)
 
   const isAudioAvailable = file || audioStream
+
+  function handleDarkMode(){
+    setDarkMode(!darkMode)
+  }
 
   function handleAudioReset() {
     setFile(null)
@@ -80,21 +85,24 @@ function App() {
   }
 
   return (
-    <>
-    <div className='flex flex-col max-w-[1000px] mx-auto w-full'>
-      <section className='min-h-screen flex flex-col'>
-        <Header />
-        {output ? (
-          <Information output={output} />
-        ) : loading ? (
-          <Transcribing />
-        ) : isAudioAvailable ? (
-        <FileDisplay handleFormSubmission={handleFormSubmission} handleAudioReset={handleAudioReset} file={file} audioStream={audioStream} />
-        ) : (<HomePage setFile={setFile} setAudioStream={setAudioStream} />)}
-      </section>
-      <footer></footer>
+    <div className={'bg-gradient-to-r text-sm sm:text-base animation-200 transition-colors ' + (darkMode ? 'from-black to-gray-950 text-slate-500' : 'from-blue-50 to-transparent text-slate-700')}>
+      <div className='flex flex-col max-w-[1000px] mx-auto w-full'>
+        <section className='min-h-screen flex flex-col'>
+          <Header darkMode={darkMode} />
+          {output ? (
+            <Information darkMode={darkMode} output={output} />
+          ) : loading ? (
+            <Transcribing darkMode={darkMode} />
+          ) : isAudioAvailable ? (
+          <FileDisplay darkMode={darkMode} handleFormSubmission={handleFormSubmission} handleAudioReset={handleAudioReset} file={file} audioStream={audioStream} />
+          ) : (<HomePage darkMode={darkMode} setFile={setFile} setAudioStream={setAudioStream} />)}
+          <button onClick={handleDarkMode} className='pb-4 mx-auto'>
+            {darkMode ? <i title='Modo Claro' className="text-4xl fa-solid fa-sun"></i> : <i title='Modo Escuro' className="text-4xl fa-solid fa-moon"></i>}
+          </button>
+        </section>
+        <footer></footer>
+      </div>
     </div>
-    </>
   )
 }
 

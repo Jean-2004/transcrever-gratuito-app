@@ -2,7 +2,8 @@ import React from 'react'
 import { LANGUAGES } from '../utils/presets'
 
 export default function Translation(props) {
-    const { textElement, toLanguage, translating, 
+    const { darkMode,
+        textElement, toLanguage, translating, 
         setTranslation, setTranslating, setToLanguage,
         generateTranslation } = props
 
@@ -14,7 +15,7 @@ export default function Translation(props) {
         {!translating && (<div className='flex flex-col gap-1'>
             <p className='text-xs sm:text-sm font-medium text-slate-500 mr-auto'>Para o idioma</p>
             <div className='flex items-stretch gap-2'>
-                <select className='flex-1 outline-none bg-white focus:outline-none border border-solid border-transparent hover:border-blue-300 duration-200 p-2 rounded' value={toLanguage} onChange={(e) => setToLanguage(e.target.value)}>
+                <select className={'flex-1 outline-none focus:outline-none border border-solid border-transparent hover:border-blue-300 duration-200 p-2 rounded ' + (darkMode ? 'bg-gray-900' : 'bg-white')} value={toLanguage} onChange={(e) => setToLanguage(e.target.value)}>
                     <option value={'Select language'}>Escolha um idioma</option>
                     {Object.entries(LANGUAGES).map(([key, value]) => {
                         return (
@@ -22,7 +23,7 @@ export default function Translation(props) {
                         )
                     })}
                 </select>
-                <button onClick={generateTranslation} className='specialBtn px-3 py-2 rounded-lg text-blue-400 hover:text-blue-600 duration-200'>Traduzir</button>
+                <button onClick={generateTranslation} className={'specialBtn px-3 py-2 rounded-lg duration-200 ' + (darkMode ? 'specialBtnDark text-purple-500 hover:text-purple-800' : 'text-blue-400 hover:text-blue-600')}>Traduzir</button>
             </div>
         </div>)}
         {translating && (

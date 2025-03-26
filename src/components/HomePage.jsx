@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 
 export default function HomePage(props) {
-    const { setAudioStream, setFile } = props
+    const { darkMode, setAudioStream, setFile } = props
 
     const [recordingStatus, setRecordingStatus] = useState('inactive')
     const [audioChunks, setAudioChunks] = useState([])
@@ -70,13 +70,13 @@ export default function HomePage(props) {
 
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 text-center sm:gap-4 justify-center pb-20'>
-        <h1 className='font-semibold text-5xl sm:text-6xl md:text-7xl'>Transcição <span className='text-blue-400 bold'>Grátis</span></h1>
+        <h1 className='font-semibold text-5xl sm:text-6xl md:text-7xl'>Transcição <span className={'bold ' + (darkMode ? 'text-purple-500' : 'text-blue-400')}>Grátis</span></h1>
         <h3 className='font-medium md:text-lg'>Gravar <span 
-        className='text-blue-400'>&rarr;</span> Transcrever <span 
-        className='text-blue-400'>&rarr;</span> Traduzir</h3>
+        className={darkMode ? 'text-purple-500' : 'text-blue-400'}>&rarr;</span> Transcrever <span 
+        className={darkMode ? 'text-purple-500' : 'text-blue-400'}>&rarr;</span> Traduzir</h3>
         <button onClick={recordingStatus === 'recording' ? stopRecording : startRecording} 
-        className='flex items-center text-base justify-between gap-4 mx-auto w-72 max-w-full my-4 specialBtn px-4 py-2 rounded-xl'>
-            <p className='text-blue-400'>{recordingStatus === 'inactive' ? 'Gravar' : `Parar gravação`}</p>
+        className={'flex items-center text-base justify-between gap-4 mx-auto w-72 max-w-full my-4 specialBtn px-4 py-2 rounded-xl ' + (darkMode ? 'specialBtnDark' : '')}>
+            <p className={darkMode ? 'text-purple-500' : 'text-blue-400'}>{recordingStatus === 'inactive' ? 'Gravar' : `Parar gravação`}</p>
             <div className='flex items-center gap-2'>
                 {duration !== 0 && (
                     <p className='text-sm'>{duration}s</p>
@@ -84,7 +84,7 @@ export default function HomePage(props) {
                 <i className={"fa-solid duration-200 fa-microphone " + (recordingStatus === 'recording' ? ' text-rose-300' : "")} ></i>
             </div>
         </button>
-        <p className='text-base'>Or <label className='text-blue-400 cursor-pointer hover:text-blue-600 duration-200'>Enviar 
+        <p className='text-base'>Ou <label className={'duration-200 ' + (darkMode ? 'text-purple-500 hover:text-purple-800' : 'text-blue-400 cursor-pointer hover:text-blue-600 ')}>Enviar 
         <input onChange={(e) => {
             const tempFile = e.target.files[0]
             setFile(tempFile)
